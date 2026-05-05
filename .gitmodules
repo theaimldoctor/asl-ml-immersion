@@ -1,0 +1,3 @@
+[submodule "wbml-attack"]
+	path = wbml-attack
+	url = https://github.com/AkashGhosh/When-Background-Matters-Breaking-Medical-Vision-Language-Models-by-Transferable-Attack.git
