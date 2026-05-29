@@ -138,3 +138,9 @@ dmypy.json
 cython_debug/
 
 *_kernel/
+*.tar.gz
+*.zip
+__pycache__/
+.ipynb_checkpoints/
+medfocus_defense/data/
+medfocus_defense/outputs/

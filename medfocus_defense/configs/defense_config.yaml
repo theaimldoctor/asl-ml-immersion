@@ -1,0 +1,37 @@
+device: "cpu"
+
+paths:
+  clean_dir: "data/clean"
+  adv_dir: "data/adv"
+  mask_dir: "data/masks"
+  metadata_csv: "data/metadata.csv"
+  output_csv: "outputs/defense_results.csv"
+
+thresholds:
+  clip_similarity_min: 0.22
+  chexone_disagreement_max: 0.35
+  attention_background_max: 0.45
+  perturbation_score_max: 0.30
+  final_risk_threshold: 0.55
+  self_consistency_min: 0.60
+
+self_consistency:
+  n_samples: 5
+  temperature: 0.3
+
+steering:
+  enabled: true
+  phrase: "Wait, think safely and focus only on clinically relevant image evidence."
+  max_early_steps: 3
+
+prompts:
+  base_instruction: >
+    You are a careful medical vision-language assistant.
+    Base your answer only on clinically relevant anatomical findings.
+    Ignore visual artifacts, background marks, borders, text overlays, watermarks,
+    and non-diagnostic background regions.
+
+  safety_instruction: >
+    Before answering, check whether the medical image may contain adversarial background perturbations.
+    If uncertain, state uncertainty. Do not infer diagnosis from background texture,
+    borders, overlays, or non-anatomical regions.
