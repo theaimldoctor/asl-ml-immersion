@@ -1,0 +1,41 @@
+project:
+  project_id: "avid-glazing-495107-i4"
+  region: "us-central1"
+  bucket: "avid-glazing-495107-i4-medfocusguard"
+  bq_dataset: "medfocusguard_research"
+  bq_table: "experiment_metrics"
+
+experiment:
+  name: "phase3b_brain_tumor_mri_qwen2vl"
+  max_samples: 1
+  seed: 42
+
+paths:
+  metadata_file: "medfocus_defense/data/brain_tumor_mri/metadata/samples_with_masks.jsonl"
+  local_output_dir: "medfocus_defense/outputs"
+
+mask:
+  foreground_value: 255
+  invert_mask: false
+
+gate2:
+  k_bg: 3
+  k_fg: 1
+  threshold: 0.60
+  interventions:
+    background:
+      - "blur"
+      - "local_mean"
+      - "neutral_replace"
+    foreground:
+      - "blur"
+
+victim:
+  backend: "qwen2vl"
+  model_name: "Qwen/Qwen2-VL-2B-Instruct"
+  max_new_tokens: 128
+  prompt: "Analyze this brain MRI. First describe visible imaging evidence, then give a cautious tumor-related impression. Do not rely on background artifacts."
+
+logging:
+  upload_to_gcs: true
+  insert_to_bigquery: true
