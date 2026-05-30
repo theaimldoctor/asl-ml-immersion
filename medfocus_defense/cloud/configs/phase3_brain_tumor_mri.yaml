@@ -1,0 +1,41 @@
+project:
+  project_id: "avid-glazing-495107-i4"
+  region: "us-central1"
+  bucket: "avid-glazing-495107-i4-medfocusguard"
+  bq_dataset: "medfocusguard_research"
+  bq_table: "experiment_metrics"
+
+experiment:
+  name: "phase3_brain_tumor_mri_simple_vlm"
+  max_samples: 100
+  seed: 42
+
+paths:
+  metadata_file: "medfocus_defense/data/brain_tumor_mri/metadata/samples_with_masks.jsonl"
+  local_output_dir: "medfocus_defense/outputs"
+
+mask:
+  foreground_value: 255
+  invert_mask: false
+
+gate2:
+  k_bg: 3
+  k_fg: 1
+  threshold: 0.60
+  interventions:
+    background:
+      - "blur"
+      - "local_mean"
+      - "neutral_replace"
+    foreground:
+      - "blur"
+
+victim:
+  backend: "simple_image"
+  prompt: "Analyze this brain MRI and describe tumor-related visual evidence first."
+
+logging:
+  upload_to_gcs: false
+  insert_to_bigquery: true
+  save_intervention_images: false
+  save_report_bundles: false
